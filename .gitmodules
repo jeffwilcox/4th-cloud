@@ -1,0 +1,9 @@
+[submodule "node_modules/mpns"]
+	path = node_modules/mpns
+	url = git@github.com:jeffwilcox/mpns.git
+[submodule "node_modules/node-foursquare"]
+	path = node_modules/node-foursquare
+	url = git@github.com:jeffwilcox/node-foursquare.git
+[submodule "node_modules/aws-lib"]
+	path = node_modules/aws-lib
+	url = https://github.com/mirkok/aws-lib.git
