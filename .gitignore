@@ -1,0 +1,7 @@
+.idea
+userinfo.txt
+.idea/*
+*.json
+*.suo
+*.docstates.suo
+robots.txt
