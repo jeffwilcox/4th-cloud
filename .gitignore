@@ -1,7 +1,7 @@
 .idea
 userinfo.txt
 .idea/*
-*.json
+4th-config*.json
 *.suo
 *.docstates.suo
 robots.txt
