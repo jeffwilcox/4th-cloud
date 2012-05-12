@@ -1,4 +1,5 @@
 .idea
+.DS_Store
 userinfo.txt
 .idea/*
 4th-config*.json
