@@ -21,8 +21,10 @@ var isPush = path.existsSync('/home/ec2-user/is_push');
 var isWeb = path.existsSync('/home/ec2-user/is_web');
 
 var aws = require('aws-lib');
-var awsKeyId = '0GCE8TX3KSKMWQ7JYYR2';
-var awsSecret = '9irOfVNQOyLrTY6UozfcjAtdQ1u154n44VayTmjt';
+var nconf = require('nconf');
+var awsKeyId = 'KEY';
+var awsSecret = 'SECRET';
+var awsSnsUri = 'TBD';
 
 var options = {
   host: '169.254.169.254',
@@ -48,7 +50,7 @@ var req = http.request(options, function(res) {
 
   var sms = {
       Message: purpose + ' up http://' + hostname + ':3000/',
-      TopicArn: 'arn:aws:sns:us-east-1:092856168967:WorkerCloud'
+      TopicArn: awsSnsUri
   };
   sns.call ( 'Publish', sms, function(result) {
       console.dir(result);
