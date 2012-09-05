@@ -61,7 +61,7 @@ var pushutil = require('./lib/pushutil');
 context.configuration.path.temporaryPhotosDirectory = context.environment.isWindows === true ? "c:\\temp\\49photos\\" : '/tmp/49photos/'
 
 function startupWorkerRole() {
-    if (!path.existsSync(context.configuration.path.temporaryPhotosDirectory)) {
+    if (!fs.existsSync(context.configuration.path.temporaryPhotosDirectory)) {
         fs.mkdirSync(context.configuration.path.temporaryPhotosDirectory);
     }
 

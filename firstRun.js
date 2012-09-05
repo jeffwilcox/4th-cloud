@@ -18,9 +18,10 @@ var http = require('http');
 var path = require('path');
 var os = require('os');
 var aws = require('aws-lib');
+var fs = require('fs');
 
-var isPush = path.existsSync('/home/ec2-user/.4thandmayor/is_push');
-var isWeb = path.existsSync('/home/ec2-user/.4thandmayor/is_web');
+var isPush = fs.existsSync('/home/ec2-user/.4thandmayor/is_push');
+var isWeb = fs.existsSync('/home/ec2-user/.4thandmayor/is_web');
 
 var localHostname = os.hostname();
 
