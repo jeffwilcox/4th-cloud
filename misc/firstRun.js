@@ -20,8 +20,10 @@ var path = require('path');
 var isPush = path.existsSync('/home/ec2-user/.4thandmayor/is_push');
 var isWeb = path.existsSync('/home/ec2-user/.4thandmayor/is_web');
 
+var os = require('os');
+var localHostname = os.hostname();
+
 var aws = require('aws-lib');
-// var nconf = require('nconf');
 
 var role = 'web'; // The default.
 var mode = 'production';
@@ -39,24 +41,7 @@ var awsKeyId = configuration.aws.id;
 var awsSecret = configuration.aws.secret;
 var awsSnsUri = configuration.aws.snsArn;
 
-var options = {
-  host: '169.254.169.254',
-  port: 80,
-  path: '/latest/meta-data/public-hostname',
-  method: 'GET'
-};
-
-var req = http.request(options, function(res) {
-  console.log('STATUS: ' + res.statusCode);
-  res.setEncoding('utf8');
-  var body = '';
-  res.on('data', function (chunk) {
-     body += chunk;
-  });
-  res.on('end', function () {
-
-  var hostname = body;
-
+function sendNotification(hostname) {
   var sns = aws.createSNSClient(awsKeyId, awsSecret);
   var purpose = isWeb ? 'web' : '';
   purpose += isPush ? ' push' : '';
@@ -65,15 +50,45 @@ var req = http.request(options, function(res) {
       Message: purpose + ' up http://' + hostname + ':3000/',
       TopicArn: awsSnsUri
   };
+
+  console.dir(sms);
+
   sns.call ( 'Publish', sms, function(result) {
       console.dir(result);
   } );
+}
 
+console.log('Local hostname is: ' + localHostname);
+
+if (localHostname == 'JW-Air.local') {
+  sendNotification('local dev testing disregard');
+} else {
+  var options = {
+    host: '169.254.169.254',
+    port: 80,
+    path: '/latest/meta-data/public-hostname',
+    method: 'GET'
+  };
+
+  var req = http.request(options, function(res) {
+    console.log('STATUS: ' + res.statusCode);
+    res.setEncoding('utf8');
+    var body = '';
+    res.on('data', function (chunk) {
+       body += chunk;
+    });
+    res.on('end', function () {
+
+    var hostname = body;
+
+    sendNotification(hostname);
+
+    });
   });
-});
 
-req.on('error', function(e) {
-  console.log('problem with request: ' + e.message);
-});
+  req.on('error', function(e) {
+    console.log('problem with request: ' + e.message);
+  });
 
-req.end();
+  req.end();
+}
