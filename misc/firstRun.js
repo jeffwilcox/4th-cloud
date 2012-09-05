@@ -17,14 +17,27 @@
 var http = require('http');
 var path = require('path');
 
-var isPush = path.existsSync('/home/ec2-user/is_push');
-var isWeb = path.existsSync('/home/ec2-user/is_web');
+var isPush = path.existsSync('/home/ec2-user/.4thandmayor/is_push');
+var isWeb = path.existsSync('/home/ec2-user/.4thandmayor/is_web');
 
 var aws = require('aws-lib');
-var nconf = require('nconf');
-var awsKeyId = 'KEY';
-var awsSecret = 'SECRET';
-var awsSnsUri = 'TBD';
+// var nconf = require('nconf');
+
+var role = 'web'; // The default.
+var mode = 'production';
+if (process.argv.length > 2) {
+    role = process.argv[2];
+}
+if (process.argv.length > 3) {
+    mode = process.argv[3];
+}
+
+// Prepare configuration. Startup once ready.
+var configuration = require('../lib/configuration')(role, mode);
+
+var awsKeyId = configuration.aws.id;
+var awsSecret = configuration.aws.secret;
+var awsSnsUri = configuration.aws.snsArn;
 
 var options = {
   host: '169.254.169.254',
