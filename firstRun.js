@@ -16,14 +16,13 @@
 
 var http = require('http');
 var path = require('path');
+var os = require('os');
+var aws = require('aws-lib');
 
 var isPush = path.existsSync('/home/ec2-user/.4thandmayor/is_push');
 var isWeb = path.existsSync('/home/ec2-user/.4thandmayor/is_web');
 
-var os = require('os');
 var localHostname = os.hostname();
-
-var aws = require('aws-lib');
 
 var role = 'web'; // The default.
 var mode = 'production';
@@ -35,7 +34,7 @@ if (process.argv.length > 3) {
 }
 
 // Prepare configuration. Startup once ready.
-var configuration = require('../lib/configuration')(role, mode);
+var configuration = require('./lib/configuration')(role, mode);
 
 var awsKeyId = configuration.aws.id;
 var awsSecret = configuration.aws.secret;
@@ -60,7 +59,8 @@ function sendNotification(hostname) {
 
 console.log('Local hostname is: ' + localHostname);
 
-if (localHostname == 'JW-Air.local') {
+if (localHostname == 'JW-Air.local' || os.type() == 'Windows_NT') {
+  console.log('(Development Environment)');
   sendNotification('local dev testing disregard');
 } else {
   var options = {
