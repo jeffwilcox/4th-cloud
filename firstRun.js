@@ -61,7 +61,11 @@ console.log('Local hostname is: ' + localHostname);
 
 if (localHostname == 'JW-Air.local' || os.type() == 'Windows_NT') {
   console.log('(Development Environment)');
-  sendNotification('local dev testing disregard');
+  
+  console.log('Showing the parsed config file instead of using SNS:');
+  console.dir(configuration);
+  
+  // sendNotification('local dev testing disregard');
 } else {
   var options = {
     host: '169.254.169.254',
