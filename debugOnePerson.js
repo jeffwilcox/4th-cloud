@@ -58,7 +58,6 @@ var context = require('./lib/context')(configuration, role, mode, function(err) 
 });
 
 var async = require('async');
-
 var path = require('path');
 var fs = require('fs');
 
