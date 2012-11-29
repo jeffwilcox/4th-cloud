@@ -27,6 +27,8 @@
 // agent, so it is sending hundreds of thousands of requests to fsq, Mongo,
 // MPNS, etc.
 
+// TODO: Support Foursquare real-time push notifications & the system around that concept.
+
 var role = 'web'; // The default.
 var mode = 'production';
 if (process.argv.length > 2) {
@@ -34,6 +36,11 @@ if (process.argv.length > 2) {
 }
 if (process.argv.length > 3) {
     mode = process.argv[3];
+}
+
+// Windows Azure Web Sites support
+if (process.env.MODE) {
+    mode = process.env.MODE;
 }
 
 // Prepare configuration. Startup once ready.
@@ -49,17 +56,25 @@ var context = require('./lib/context')(configuration, role, mode, function(err) 
     }
 });
 
-// TODO: Support Foursquare real-time push notifications & the system around that concept.
-
 var async = require('async');
-
 var path = require('path');
 var fs = require('fs');
 
 var pushutil = require('./lib/pushutil');
 
-context.configuration.path.temporaryPhotosDirectory = context.environment.isWindows === true ? "c:\\temp\\49photos\\" : '/tmp/49photos/'
+// Temporary Photo Storage for tile generation
+context.configuration.path.temporaryPhotosDirectory = 
+    context.environment.isWindows === true ? 
+    process.env.TEMP + "\\49photos\\" : 
+    '/tmp/49photos/';
 
+// Azure: 80
+// Amazon: 3000
+var listeningPort = context.environment.isWindows === true ? 80 : 3000;
+
+// ---------------------------------------------------------------------------
+// Initialization for the role/s
+// ---------------------------------------------------------------------------
 function startupWorkerRole() {
     if (!fs.existsSync(context.configuration.path.temporaryPhotosDirectory)) {
         fs.mkdirSync(context.configuration.path.temporaryPhotosDirectory);
