@@ -86,9 +86,9 @@ function startupWorkerRole() {
     if (context.environment.isWebServer === true) {
         var webserver = require('./lib/webserver');
         var app = webserver.initialize(context);
-        app.listen(3000);
+        app.listen(listeningPort);
         
-        console.log('Web server is listening on port: 3000 ' + app.settings.env);
+        console.log('Web server is listening on port: ' + listeningPort + ' ' + app.settings.env);
     }
 
     // ---------------------------------------------------------------------------
