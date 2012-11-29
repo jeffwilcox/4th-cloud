@@ -68,9 +68,8 @@ context.configuration.path.temporaryPhotosDirectory =
     process.env.TEMP + "\\49photos\\" : 
     '/tmp/49photos/';
 
-// Azure: 80
-// Amazon: 3000
-var listeningPort = context.environment.isWindows === true ? 80 : 3000;
+// Listen on 3000 (EC2) or an alternative port (Azure)
+var listeningPort = process.env.PORT || 3000;
 
 // ---------------------------------------------------------------------------
 // Initialization for the role/s
