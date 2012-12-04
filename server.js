@@ -27,6 +27,14 @@
 // agent, so it is sending hundreds of thousands of requests to fsq, Mongo,
 // MPNS, etc.
 
+var contextModule = require('./lib/context');
+
+var async = require('async');
+var path = require('path');
+var fs = require('fs');
+
+var pushutil = require('./lib/pushutil');
+
 // TODO: Support Foursquare real-time push notifications & the system around that concept.
 
 var role = 'web'; // The default.
@@ -43,40 +51,40 @@ if (process.env.MODE) {
     mode = process.env.MODE;
 }
 
+var listeningPort = process.env.PORT || 3000;
+
 // Prepare configuration. Startup once ready.
 var configuration = require('./lib/configuration')(role, mode);
 var cleanup = require('./lib/cleanup');
-var context = require('./lib/context')(configuration, role, mode, function(err) {
-    if(err) {
+
+var initializeContext = function (err, contextObject) {
+    if (err) {
         console.error('Unfortunately startup went badly and the context could not be prepared.');
         console.dir(err);
     } else {
+        var context = contextObject;
+
+        // Temporary Photo Storage for tile generation
+        context.configuration.path.temporaryPhotosDirectory = 
+            context.environment.isWindows === true ? 
+            process.env.TEMP + "\\49photos\\" : 
+            '/tmp/49photos/';
+
         cleanup.initialize(context);
-        startupWorkerRole();
+        startupWorkerRole(context);
     }
-});
+}
 
-var async = require('async');
-var path = require('path');
-var fs = require('fs');
-
-var pushutil = require('./lib/pushutil');
-
-// Temporary Photo Storage for tile generation
-context.configuration.path.temporaryPhotosDirectory = 
-    context.environment.isWindows === true ? 
-    process.env.TEMP + "\\49photos\\" : 
-    '/tmp/49photos/';
-
-// Listen on 3000 (EC2) or an alternative port (Azure)
-var listeningPort = process.env.PORT || 3000;
+contextModule.initialize(configuration, role, mode, initializeContext);
 
 // ---------------------------------------------------------------------------
 // Initialization for the role/s
 // ---------------------------------------------------------------------------
-function startupWorkerRole() {
-    if (!fs.existsSync(context.configuration.path.temporaryPhotosDirectory)) {
-        fs.mkdirSync(context.configuration.path.temporaryPhotosDirectory);
+function startupWorkerRole(context) {
+    if (context.configuration.path && context.configuration.path.temporaryPhotosDirectory) {
+        if (!fs.existsSync(context.configuration.path.temporaryPhotosDirectory)) {
+            fs.mkdirSync(context.configuration.path.temporaryPhotosDirectory);
+        }
     }
 
     // ---------------------------------------------------------------------------
