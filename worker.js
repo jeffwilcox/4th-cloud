@@ -21,15 +21,12 @@
 // agent, so it is sending hundreds of thousands of requests to fsq, Mongo,
 // MPNS, etc.
 
-var async = require('async');
-var path = require('path');
-var fs = require('fs');
+var async = require('async')
+  , path = require('path')
+  , fs = require('fs');
 
-var pushutil = require('./lib/pushutil');
-
-// TODO: Support Foursquare real-time push notifications & the system around that concept.
-
-var cleanup = require('./lib/cleanup');
+var pushutil = require('./lib/pushutil')
+  , cleanup = require('./lib/cleanup');
 
 require('./lib/context').initialize(require('./lib/configuration'), function initializeContext(err, contextObject) {
     if (err) {
