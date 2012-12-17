@@ -17,8 +17,12 @@
 // 4th & Mayor Web Site
 // ---------------------------------------------------------------------------
 
+var StatsD = require('node-statsd').StatsD;
+c = new StatsD('statsd.4thandmayor.com', 8125); // Yes, a global.
+
 require('./lib/context').initialize(require('./lib/configuration'), function (err, context) {
     if (err || context.environment.isWebServer !== true) {
+        context.statsd.increment('dev.4thandmayor.com.failed_server_startup');
         throw new Error('Unfortunately startup went badly and the context could not be prepared, or this is not a web server role.');
     } else {
         var webserver = require('./lib/webserver');
@@ -27,6 +31,8 @@ require('./lib/context').initialize(require('./lib/configuration'), function (er
 
         app.set('port', port);
         app.listen(port);
+
+        context.statsd.increment('dev.4thandmayor.com.node_startup');
 
         console.log('Web server is listening on port: ' + port + ' ' + app.settings.env);
     }
