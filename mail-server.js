@@ -30,25 +30,43 @@ require('./lib/context').initialize(require('./lib/configuration'), function (er
         var containerName = config.azure.container.mail;
 
     	// Drop in Azure storage container for now.
-    	var blobService = azure.createBlobService(config.azure.storageaccount, config.azure.storagekey);
-		blobService.createContainerIfNotExists(containerName, function (error){
+    	var blobService = azure.createBlobService(
+    		config.azure.storageaccount, 
+    		config.azure.storagekey);
+		blobService.createContainerIfNotExists(
+			containerName, 
+			function (error){
 		    if(!error){
-		        // Listen on port 25.
+		        // Listen on port 25 for incoming e-mail.
 		        el.start();
-
 		        el.on('msg', function (recipient, raw, parsed) {
 		        	var id = uuid.v1(); // time-based UUID
 
 					if (parsed.text) {
-						var json = JSON.parse(parsed.text);
+						var json = undefined;
+						var text = parsed.text;
+						var start = text.indexOf('{');
+						var end = text.lastIndexOf('}');
+
+						if (start >= 0 && end >= 0) {
+							text = text.substring(start, end - start);
+							
+							try {
+								var obj = JSON.parse(text);
+								if (obj !== undefined) {
+									json = JSON.stringify(obj);
+								}
+							}
+							catch (e) {
+								// TODO: Need to start logging properly.
+							}
+						}
 
 			        	blobService.createBlockBlobFromText(containerName, id + '.txt', raw, function (err) {
 			        		if (err) {
 			        			console.dir(err);
-			        		} else {
-			        			
-			        			// Store the JSON.
-			        			blobService.createBlockBlobFromText(containerName, id + '.json', parsed.text, function (err) {
+			        		} else if (json !== undefined) {       			
+			        			blobService.createBlockBlobFromText(containerName, id + '.json', json, function (err) {
 			        				if (err) {
 
 			        				}
