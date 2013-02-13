@@ -6,16 +6,13 @@
   "private": true,
   "dependencies": {
   },
-  "engine": {
-    "node": ">=0.8.x"
-  },
   "scripts": {
     "start": "node server.js"
   },
   "devDependencies": {},
   "optionalDependencies": {},
   "engines": {
-    "node": "0.8.*"
+    "node": "0.8.x"
   },
   "repository": {
     "type": "git",
