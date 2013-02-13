@@ -26,7 +26,6 @@ require('./lib/context').initialize(require('./lib/configuration'), function (er
         var azure = require('azure');
 
         var config = context.configuration;
-
         var containerName = config.azure.container.mail;
 
     	// Drop in Azure storage container for now.
@@ -49,7 +48,7 @@ require('./lib/context').initialize(require('./lib/configuration'), function (er
 						var end = text.lastIndexOf('}');
 
 						if (start >= 0 && end >= 0) {
-							text = text.substring(start, end - start);
+							text = text.substring(start, end - start + 1);
 							
 							try {
 								var obj = JSON.parse(text);
@@ -63,6 +62,10 @@ require('./lib/context').initialize(require('./lib/configuration'), function (er
 						}
 
 			        	blobService.createBlockBlobFromText(containerName, id + '.txt', raw, function (err) {
+			        		if (!err) {
+			        			// parsed.from[0].address, name 
+			        		}
+
 			        		if (err) {
 			        			console.dir(err);
 			        		} else if (json !== undefined) {       			
