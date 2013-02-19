@@ -62,22 +62,36 @@ require('./lib/context').initialize(require('./lib/configuration'), function (er
 						}
 
 			        	blobService.createBlockBlobFromText(containerName, id + '.txt', raw, function (err) {
-			        		if (!err) {
-			        			// parsed.from[0].address, name 
-			        		}
+			        		var from = parsed.from[0];
 
 			        		if (err) {
 			        			console.dir(err);
-			        		} else if (json !== undefined) {       			
-			        			blobService.createBlockBlobFromText(containerName, id + '.json', json, function (err) {
-			        				if (err) {
+			        		} else {
+			        			// parsed.from[0].address, name 
 
-			        				}
-			        			});
-			        		}
+			        			if (from && from.address && from.name) {
+			        				var aws = require('aws-lib');
+			        				var ses = aws.createSESClient(config.aws.id, config.aws.secret);
+			        				ses.call('SendEmail', {
+			        					'Destination.ToAddresses.member.1': from.address,
+			        					'Message.Body.Text.Charset': 'UTF-8',
+			        					'Message.Body.Text.Data': message,
+			        					'Message.Subject.Charset': 'UTF-8',
+			        					'Message.Subject.Data': 'Thank you for your crash report ' + from.name,
+			        					'Source': 'noreply@4thandmayor.com'
+			        				}, function (erro, resu) {
+			        					// todo: ...
+			        				});
+			        			}
+
+			        			if (json !== undefined) {       			
+			        				blobService.createBlockBlobFromText(containerName, id + '.json', json, function (err) {
+				        			});
+			        			}
+			        		} 
 			        	});
 					} else {
-						// Not valid JSON sent.
+						// E-mail was not valid (no text in the body)
 					}
 		        });
 		    }
