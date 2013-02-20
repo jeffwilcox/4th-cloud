@@ -1,0 +1,62 @@
+
+//
+// Copyright (C) Jeff Wilcox
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+var   util = require('util')
+    , uuid = require('uuid-js')
+    , azure = require('azure');
+
+// Startup with:
+// node log.js log dev
+
+var partition = 'logs';
+var table = 'logs';
+
+//
+//
+var iso8061date = azure.ISO8061Date;
+
+// Last minute...
+var now = new Date();
+
+require('./lib/context').initialize(require('./lib/configuration'), function (err, context) {
+    var config = context.configuration;
+
+    var tableService = azure.createTableService(config.azure.storageaccount, config.azure.storagekey);
+
+    tableService.createTableIfNotExists(table, query);
+
+    function query() {
+    	var previous = now;
+    	now = new Date();
+
+    	var query = azure.TableQuery
+    		.select()
+    		.from(table)
+    		.where('PartitionKey eq ?', partition)
+    		.and('Timestamp gt datetime?', iso8061date.format(previous));
+
+    	tableService.queryEntities(query, function (error, entities) {
+    		if (error) {
+    			console.dir(error);
+    		} else {
+    			console.dir(entities);
+    		}
+    	});
+    }
+
+    setInterval(query, 5000 /* every 5 seconds */);
+});
