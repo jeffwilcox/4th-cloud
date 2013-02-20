@@ -37,6 +37,6 @@ require('./lib/context').initialize(require('./lib/configuration'), function (er
         context.stats.server.startup();
 
         var msg = 'Web server is listening on port: ' + port + ' ' + app.settings.env;
-        console.log(msg);
+        context.winston.silly(msg);
     }
 });
