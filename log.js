@@ -1,4 +1,3 @@
-
 //
 // Copyright (C) Jeff Wilcox
 //
@@ -19,17 +18,15 @@ var   util = require('util')
     , uuid = require('uuid-js')
     , azure = require('azure');
 
-// Startup with:
 // node log.js log dev
 
 var partition = 'logs';
 var table = 'logs';
 
-//
-//
+var interval = 1000 * 2;
+
 var iso8061date = azure.ISO8061Date;
 
-// Last minute...
 var now = new Date();
 
 require('./lib/context').initialize(require('./lib/configuration'), function (err, context) {
@@ -58,5 +55,5 @@ require('./lib/context').initialize(require('./lib/configuration'), function (er
     	});
     }
 
-    setInterval(query, 5000 /* every 5 seconds */);
+    setInterval(query, interval);
 });
