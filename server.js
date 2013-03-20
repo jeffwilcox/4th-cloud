@@ -20,12 +20,8 @@
 require('./lib/context').initialize(require('./lib/configuration'), function (err, context) {
     if (err || context.environment.isWebServer !== true) {
         context.stats.server.startupFail();
-
-        var warningText = 'Unfortunately startup went badly and the context could not be prepared, or this is not a web server role.';
-        context.aws.mailCriticalWarning(warningText, function (res) {
-            console.dir(res);
-            throw new Error(warningText);
-        });
+        context.winston.error('This web server is not a web role or could not be started', { error: err });
+        throw new Error(err);
     } else {
         var webserver = require('./lib/webserver');
         var app = webserver.initialize(context);
@@ -35,8 +31,6 @@ require('./lib/context').initialize(require('./lib/configuration'), function (er
         app.listen(port);
 
         context.stats.server.startup();
-
-        var msg = 'Web server is listening on port: ' + port + ' ' + app.settings.env;
-        context.winston.silly(msg);
+        context.winston.silly('Web server is listening on port: ' + port + ' ' + app.settings.env);
     }
 });

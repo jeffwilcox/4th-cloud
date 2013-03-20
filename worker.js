@@ -30,8 +30,9 @@ var pushutil = require('./lib/pushutil')
 
 require('./lib/context').initialize(require('./lib/configuration'), function initializeContext(err, contextObject) {
     if (err) {
-        console.dir(err);
-        throw new Error('Unfortunately startup went badly and the context could not be prepared.');
+        var msg = 'Unfortunately startup went badly and the context could not be prepared.';
+        contextObject.winston.error(err);
+        throw new Error(msg);
     } else {
         var context = contextObject;
 
