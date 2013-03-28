@@ -5,7 +5,7 @@
 # environment variable; the default is the value of the IIS worker process'es NODE_ENV
 # environment variable
 
-node_env: production
+node_env: staging
 
 # nodeProcessCommandLine - command line starting the node executable; in shared
 # hosting environments this setting would typically be locked at the machine scope.
@@ -82,7 +82,7 @@ namedPipeConnectionRetryDelay: 40
 
 # loggingEnabled - controls whether stdout and stderr streams from node processes are captured and made available over HTTP
 
-# loggingEnabled: true
+loggingEnabled: true
 
 # logDirectory - directory name relative to the main application file that will store files with stdout and stderr captures; 
 # individual log file names have unique file names; log files are created lazily (i.e. when the process actually writes something
@@ -91,7 +91,7 @@ namedPipeConnectionRetryDelay: 40
 # SECURITY NOTE: if log files contain sensitive information, this setting should be modified to contain enough entropy to be considered
 # cryptographically secure; in most situations, a GUID is sufficient
 
-# logDirectory: iisnode
+logDirectory: iisnode
 
 # debuggingEnabled - controls whether the built-in debugger is available
 
@@ -123,9 +123,9 @@ namedPipeConnectionRetryDelay: 40
 
 # maxLogFiles - maximum number of log files in the logDirectory; once exceeded, old log files are removed
 
-# maxLogFiles: 20
+maxLogFiles: 20
 
-# devErrorsEnabled: true
+devErrorsEnabled: true
 
 # flushResponse - controls whether each HTTP response body chunk is immediately flushed by iisnode; flushing each body chunk incurs
 # CPU cost but may improve latency in streaming scenarios

@@ -48,9 +48,17 @@ require('./lib/context').initialize(require('./lib/configuration'), function (er
 
     	tableService.queryEntities(query, function (error, entities) {
     		if (error) {
+                console.log('error returned by queryEntities:');
     			console.dir(error);
     		} else {
-    			console.dir(entities);
+                for (var i in entities) {
+                    var e = entities[i];
+                    if (e.Level && e.Message) {
+                        console.log(e.Level + ': ' + e.Message);
+                    } else {
+                        console.log(e);
+                    }
+                }
     		}
     	});
     }
