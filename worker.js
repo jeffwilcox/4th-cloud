@@ -106,7 +106,7 @@ function startupWorkerRole(context) {
         context.mongo.collections.clients.find(search, constraints).toArray(function (err, res) {
             var c = 0;
             if (err) {
-                console.dir(err);
+                context.winston.error(err);
             } else if (res) {
                 for (var item in res) {
                     ++c;
@@ -120,7 +120,8 @@ function startupWorkerRole(context) {
                     else {
                         context.mongo.collections.clients.remove({ uri: pushUri },
                             context.mongo.safe,
-                            function (err, res) { console.log('Removed an invalid URI'); });
+                            function (err, res) { 
+                                context.winston.info('Removed an invalid URI.'); });
                     }
                 }
             }
