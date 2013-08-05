@@ -30,6 +30,11 @@ var iso8061date = azure.ISO8061Date;
 var now = new Date();
 
 require('./lib/context').initialize(require('./lib/configuration'), function (err, context) {
+    if (err) {
+        console.dir(err);
+        return;
+    }
+    
     var config = context.configuration;
 
     var tableService = azure.createTableService(config.azure.storageaccount, config.azure.storagekey);
