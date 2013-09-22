@@ -28,24 +28,27 @@ var async = require('async')
 var pushutil = require('./lib/pushutil')
   , cleanup = require('./lib/cleanup');
 
-require('./lib/context').initialize(require('./lib/configuration'), function initializeContext(err, contextObject) {
-    if (err) {
-        var msg = 'Unfortunately startup went badly and the context could not be prepared.';
-        contextObject.winston.error(err);
-        throw new Error(msg);
-    } else {
-        var context = contextObject;
+require('./lib/configuration')(function (config) {
+    require('./lib/context').initialize(rconfig, function initializeContext(err, contextObject) {
+        if (err) {
+            var msg = 'Unfortunately startup went badly and the context could not be prepared.';
+            contextObject.winston.error(err);
+            throw new Error(msg);
+        } else {
+            var context = contextObject;
 
-        // Temporary Photo Storage for tile generation
-        context.configuration.path.temporaryPhotosDirectory =
-            context.environment.isWindows === true ?
-            process.env.TEMP + "\\49photos\\" :
-            '/tmp/49photos/';
+            // Temporary Photo Storage for tile generation
+            context.configuration.path.temporaryPhotosDirectory =
+                context.environment.isWindows === true ?
+                process.env.TEMP + "\\49photos\\" :
+                '/tmp/49photos/';
 
-        cleanup.initialize(context);
-        startupWorkerRole(context);
-    }
+            cleanup.initialize(context);
+            startupWorkerRole(context);
+        }
+    });
 });
+
 
 // ---------------------------------------------------------------------------
 // Initialization for the role/s

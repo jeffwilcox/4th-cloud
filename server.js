@@ -17,20 +17,22 @@
 // 4th & Mayor Web Site
 // ---------------------------------------------------------------------------
 
-require('./lib/context').initialize(require('./lib/configuration'), function (err, context) {
-    if (err || context.environment.isWebServer !== true) {
-        context.stats.server.startupFail();
-        context.winston.error('This web server is not a web role or could not be started', { error: err });
-        throw new Error(err);
-    } else {
-        var webserver = require('./lib/webserver');
-        var app = webserver.initialize(context);
-        var port = context.configuration.hosting.port;
+require('./lib/configuration')(function (config) {
+    require('./lib/context').initialize(config, function (err, context) {
+        if (err || context.environment.isWebServer !== true) {
+            context.stats.server.startupFail();
+            context.winston.error('This web server is not a web role or could not be started', { error: err });
+            throw new Error(err);
+        } else {
+            var webserver = require('./lib/webserver');
+            var app = webserver.initialize(context);
+            var port = context.configuration.hosting.port;
 
-        app.set('port', port);
-        app.listen(port);
+            app.set('port', port);
+            app.listen(port);
 
-        context.stats.server.startup();
-        context.winston.silly('Web server is listening on port: ' + port + ' ' + app.settings.env);
-    }
+            context.stats.server.startup();
+            context.winston.silly('Web server is listening on port: ' + port + ' ' + app.settings.env);
+        }
+    });
 });
