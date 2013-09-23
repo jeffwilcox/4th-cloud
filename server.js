@@ -17,8 +17,10 @@
 // 4th & Mayor Web Site
 // ---------------------------------------------------------------------------
 
-require('./lib/configuration')(function (config) {
+require('./lib/configuration')('web', function (config) {
     require('./lib/context').initialize(config, function (err, context) {
+        context.winston.info('Configuration and context prepared. Starting web server.');
+
         if (err || context.environment.isWebServer !== true) {
             context.stats.server.startupFail();
             context.winston.error('This web server is not a web role or could not be started', { error: err });
