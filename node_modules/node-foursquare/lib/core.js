@@ -36,14 +36,15 @@ module.exports = function(config) {
       "path" : path,
       "method" : "GET",
       "headers" : {
-        "Content-Length": 0
+        "Content-Length": 0,
+        "User-Agent": config.userAgent ? config.userAgent : 'node-foursquare'
       }
     }, function(res) {
       res.on("data", function(chunk) {
         result += chunk;
       });
       res.on("end", function() {
-        callback(null, res.statusCode, result);
+        callback(null, res.statusCode, res.headers, result);
       });
     });
     request.on("error", function(error) {
@@ -76,18 +77,18 @@ module.exports = function(config) {
     url = urlParser.format(parsedUrl);
 
     retrieve(url,
-      function(error, status, result) {
+      function(error, status, headers, result) {
         if(error) {
           callback(error);
         }
         else {
           logger.trace(sys.inspect(result));
-          callback(null, status, result);
+          callback(null, status, headers, result);
         }
       });
   }
 
-  function extractData(url, status, result, callback) {
+  function extractData(url, status, headers, result, callback) {
     var json;
     callback = callback || emptyCallback;
 
@@ -101,6 +102,25 @@ module.exports = function(config) {
       }
 
       if(json.meta && json.meta.code === 200) {
+        if (headers['x-ratelimit-remaining']) {
+          json.response.rateLimitRemaining = Number(headers['x-ratelimit-remaining']);
+        }
+        if (headers['x-ratelimit-limit']) {
+          json.response.rateLimitLimit = Number(headers['x-ratelimit-limit']);
+        }
+        if (json.notifications) {
+          var notif = json.notifications;
+          if (notif) {
+            for (var i = 0; i < notif.length; i++) {
+              if (notif[i] && notif[i].type == "notificationTray" && notif[i].item) {
+                if (notif[i].item.unreadCount && json.response !== undefined) {
+                  json.response.unreadNotificationCount = notif[i].item.unreadCount;
+                }
+              }
+            }
+          }
+        }
+
         if(json.meta.errorType) {
           var parsedUrl = urlParser.parse(url),
             message = parsedUrl.pathname + " (" + json.meta.errorType + "): " + json.meta.errorDetail || "No detail provided.";
@@ -155,8 +175,8 @@ module.exports = function(config) {
       url += "?" + qs.stringify(params);
     }
     logger.trace("URL: " + url);
-    invokeApi(url, accessToken, function(error, status, result) {
-      extractData(url, status, result, callback);
+    invokeApi(url, accessToken, function(error, status, headers, result) {
+      extractData(url, status, headers, result, callback);
     });
   }
   

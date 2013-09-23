@@ -14,7 +14,7 @@ module.exports = function(config) {
   /**
    * Retrieve a photo from Foursquare.
    * @memberof module:node-foursquare/Photos
-   * @param {String} photoId The id of the Photo to retreive.
+   * @param {String} photoId The id of the Photo to retrieve.
    * @param {String} accessToken The access token provided by Foursquare for the current user.
    * @param {Function} callback The function to call with results, function({Error} error, {Object} results).
    * @see https://developer.foursquare.com/docs/photos/photos.html

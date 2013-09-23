@@ -8,3 +8,4 @@ bootstrap.json
 *.suo
 *.docstates.suo
 robots.txt
+node_modules/

@@ -7,7 +7,8 @@ exports.init = function(genericAWSClient) {
       path: options.path || "/",
       accessKeyId: accessKeyId,
       secretAccessKey: secretAccessKey,
-      secure: options.secure
+      secure: options.secure,
+      token: options.token
     })
     var callFn = function(action, query, callback) {
       query["Action"] = action
@@ -16,6 +17,9 @@ exports.init = function(genericAWSClient) {
       query["SignatureVersion"] = "2"
       return aws.call(action, query, callback);
     }
-    return {call: callFn};
+    return {
+        client: aws,
+        call: callFn
+    };
   }
 }

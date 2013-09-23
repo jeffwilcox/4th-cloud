@@ -24,10 +24,12 @@ module.exports = {
       "node-foursquare.Venues" : "OFF",
       "node-foursquare.Checkins" : "OFF",
       "node-foursquare.Tips" : "OFF",
+      "node-foursquare.Lists" : "OFF",
       "node-foursquare.Photos" : "OFF",
       "node-foursquare.Settings" : "OFF",
       "node-foursquare.Specials" : "OFF",
-      "node-foursquare.Updates" : "OFF"
+      "node-foursquare.Updates" : "OFF",
+      "node-foursquare.Events" : "OFF"
     }
   },
   "secrets" : { }
