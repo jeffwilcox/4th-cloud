@@ -19,7 +19,7 @@
 
 require('./lib/configuration')('web', function (config) {
     require('./lib/context').initialize(config, function (err, context) {
-        context.winston.info('Configuration and context prepared. Starting web server.');
+        context.winston.silly('Configuration and context prepared. Starting web server.');
 
         if (err || context.environment.isWebServer !== true) {
             context.stats.server.startupFail();
