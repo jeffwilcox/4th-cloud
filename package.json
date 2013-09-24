@@ -13,24 +13,26 @@
     "email-listener": "*",
     "express": "*",
     "imagemagick": "https://github.com/jeffwilcox/node-imagemagick/tarball/master",
-    "mersenne": "*",
     "mongodb": "*",
     "mpns": "*",
     "node-foursquare": "https://github.com/jeffwilcox/node-foursquare/tarball/master",
-    "node-statsd": "*",
-    "node-uuid": "*",
-    "passport": "*",
+    "node-statsd": "0.0.7",
+    "node-uuid": "1.4.1",
+    "passport": "0.1.17",
     "passport-foursquare": "https://github.com/jeffwilcox/passport-foursquare/tarball/master",
-    "request": "*",
-    "uuid-js": "*",
-    "winston": "*",
-    "wns": "*"
+    "request": "2.27.0",
+    "uuid-js": "0.7.4",
+    "winston": "0.7.2",
+    "wns": "*",
+    "ejs-locals": "~1.0.2",
+    "jade": "~0.35.0"
   },
   "devDependencies": {},
   "optionalDependencies": {},
   "engines": {
     "node": ">=0.10.16"
   },
+  "main": "./web/index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/jeffwilcox/4th-cloud.git"
