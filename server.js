@@ -16,20 +16,20 @@
 
 var express = require('express');
 
-require('../lib/configuration')('web', function (config) {
+require('./lib/configuration')('web', function (config) {
     var appName = config.runtime.app;
     if (appName != 'www') {
         throw new Error('Unsupported known web service: ' + appName);
     }
 
-    require('../lib/context').initialize(config, function (err, context) {
+    require('./lib/context').initialize(config, function (err, context) {
         if (err) {
             context.stats.server.startupFail();
             context.winston.error('This web server is not a web role or could not be started', { error: err });
             throw new Error(err);
         } else {
             var app = express();
-            var site = require('./' + appName + '/')(app, context);
+            var site = require('./web/' + appName + '/')(app, context);
 
             // var app = webserver.initialize(context);
 

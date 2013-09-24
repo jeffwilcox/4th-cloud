@@ -32,7 +32,7 @@
   "engines": {
     "node": ">=0.10.16"
   },
-  "main": "./web/index.js",
+  "main": "server.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/jeffwilcox/4th-cloud.git"
