@@ -18,7 +18,7 @@ var   util = require('util')
     , uuid = require('uuid-js')
     , azure = require('azure');
 
-// node log.js log dev
+// node log.js dev
 
 var partition = 'logs';
 var table = 'logs';
@@ -29,7 +29,7 @@ var iso8061date = azure.ISO8061Date;
 
 var now = new Date();
 
-require('./lib/configuration')(function (config) {
+require('./lib/configuration')('log', function (config) {
     require('./lib/context').initialize(config, function (err, context) {
         if (err) {
             console.dir(err);

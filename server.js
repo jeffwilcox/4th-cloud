@@ -18,7 +18,7 @@ var express = require('express');
 
 require('./lib/configuration')('web', function (config) {
     var appName = config.runtime.app;
-    if (appName != 'www') {
+    if (appName != 'www' && appName != 'api') {
         throw new Error('Unsupported known web service: ' + appName);
     }
 
