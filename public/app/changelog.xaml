@@ -33,8 +33,24 @@
     <TextBlock
         Style="{StaticResource PhoneTextLargeStyle}"
 			Foreground="{StaticResource PhoneAccentBrush}"
-        Text="v3.3 is now out." />
+        Text="v3.14 is coming out in April 2014:" />
 
+                <ContentPresenter
+        HorizontalAlignment="Stretch"
+        ContentTemplate="{StaticResource bullet}"
+        Content="Save contact feature added to friend profiles on the social page."/>
+                <ContentPresenter
+        HorizontalAlignment="Stretch"
+        ContentTemplate="{StaticResource bullet}"
+        Content="Official Windows Phone 8 support with high resolution app icons."/>
+                <ContentPresenter
+        HorizontalAlignment="Stretch"
+        ContentTemplate="{StaticResource bullet}"
+        Content="Support for 16:9 phones like the HTC 8X."/>
+                <ContentPresenter
+        HorizontalAlignment="Stretch"
+        ContentTemplate="{StaticResource bullet}"
+        Content="Bug fixes in explore and badge experiences."/>
 
 <!--
     <ContentPresenter

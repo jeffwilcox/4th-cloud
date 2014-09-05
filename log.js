@@ -29,46 +29,39 @@ var iso8061date = azure.ISO8061Date;
 
 var now = new Date();
 
-require('./lib/configuration')(function (config) {
-    require('./lib/context').initialize(config, function (err, context) {
-        if (err) {
-            console.dir(err);
-            return;
-        }
-        
-        var config = context.configuration;
+require('./lib/context').initialize(require('./lib/configuration'), function (err, context) {
+    var config = context.configuration;
 
-        var tableService = azure.createTableService(config.azure.storageaccount, config.azure.storagekey);
+    var tableService = azure.createTableService(config.azure.storageaccount, config.azure.storagekey);
 
-        tableService.createTableIfNotExists(table, query);
+    tableService.createTableIfNotExists(table, query);
 
-        function query() {
-            var previous = now;
-            now = new Date();
+    function query() {
+    	var previous = now;
+    	now = new Date();
 
-            var query = azure.TableQuery
-                .select()
-                .from(table)
-                .where('PartitionKey eq ?', partition)
-                .and('Timestamp gt datetime?', iso8061date.format(previous));
+    	var query = azure.TableQuery
+    		.select()
+    		.from(table)
+    		.where('PartitionKey eq ?', partition)
+    		.and('Timestamp gt datetime?', iso8061date.format(previous));
 
-            tableService.queryEntities(query, function (error, entities) {
-                if (error) {
-                    console.log('error returned by queryEntities:');
-                    console.dir(error);
-                } else {
-                    for (var i in entities) {
-                        var e = entities[i];
-                        if (e.Level && e.Message) {
-                            console.log(e.Level + ': ' + e.Message);
-                        } else {
-                            console.log(e);
-                        }
+    	tableService.queryEntities(query, function (error, entities) {
+    		if (error) {
+                console.log('error returned by queryEntities:');
+    			console.dir(error);
+    		} else {
+                for (var i in entities) {
+                    var e = entities[i];
+                    if (e.Level && e.Message) {
+                        console.log(e.Level + ': ' + e.Message);
+                    } else {
+                        console.log(e);
                     }
                 }
-            });
-        }
+    		}
+    	});
+    }
 
-        setInterval(query, interval);
-    });
+    setInterval(query, interval);
 });
