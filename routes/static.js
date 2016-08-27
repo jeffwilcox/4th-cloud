@@ -14,13 +14,27 @@
 // limitations under the License.
 //
 
-var exports = module.exports;
+module.exports = StaticSite;
 
-exports.dateToUnixTimestamp = function (myDate) {
-    return Math.round(myDate.getTime() / 1000.0);
-}
+function StaticSite() {
+};
 
-// TODO: Use a real, standard escaping function instead of the ampersand-only crap I wrote.
-exports.escapeAmpersands = function (str) {
-    return str.replace(/\&/g,'&amp;');
-}
+StaticSite.prototype = {
+  showStaticPage: function (req, res, viewName, title, locals) {
+    var newLocals = {
+      title: title,
+      user: req.user,
+      instanceId: 'instance',
+    };
+
+    if (locals) {
+      for (var key in locals) {
+        newLocals[key] = locals[key];
+      }
+    }
+    res.render(viewName, newLocals);
+  },
+
+
+  }
+};
