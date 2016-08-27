@@ -1,4 +1,11 @@
 # 4th & Mayor - Cloud Services
+
+Please checkout commit ID `1d0c10ff66342ad824b8d1eef52720fabdc42eb0` to see the actual implementation.
+
+This project is deprecated now and its dynamic cloud services have been removed.
+
+### historical
+
 This code represents the cloud services required to offer push notifications (a push service that communicates with foursquare), host the web site, and support REST web services for mobile clients.
 
 Supports compute hosting models from both Windows Azure as well as Amazon Web Services.
