@@ -5,6 +5,11 @@
   "description": "The cloud push and web services for 4th & Mayor.",
   "private": true,
   "dependencies": {
+    "async": "^2.0.1",
+    "ejs": "^2.5.1",
+    "express": "^4.14.0",
+    "request": "^2.74.0",
+    "uuid-js": "^0.7.5"
   },
   "scripts": {
     "start": "node server.js"
