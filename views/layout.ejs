@@ -4,7 +4,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title><%= title%> - 4th &amp; Mayor</title>
     <meta name="description" content="<%
-    
+
     if (locals.description) {
         %><%- locals.description %><%
     } else {
@@ -29,14 +29,14 @@
     if (locals.extraFeeds) {
         %><%-locals.extraFeeds%><%
     }
-    
+
     %>
     <link rel="stylesheet" href="/media/css/base.css" type="text/css" media="screen" charset="utf-8"/><%
 
     if (locals.extraCss) {
         %><%-locals.extraCss%><%
     }
-    
+
     %>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/jquery-ui.min.js"></script>
@@ -60,7 +60,7 @@
 </head>
 <body id="homepage">
     <div id="header">
-        <%- partial('header.ejs') %>
+        <% include header.ejs %>
     </div><%
 
     if (locals.isWide && locals.isWide === true) {
@@ -82,11 +82,11 @@
         <%
 
     }
-    
+
     %>
 
     <div id="footer">
-        <%- partial('footer.ejs') %>
+        <% include footer.ejs %>
     </div>
 </body>
 </html>

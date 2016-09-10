@@ -1,4 +1,4 @@
-<h2><% 
+<h2><%
 
 if (locals.user && locals.user && locals.user.name) {
 	var nm = locals.user.name;
@@ -13,8 +13,8 @@ if (locals.user && locals.user && locals.user.name) {
 
 %></h2>
 
-<p>You can use this site to manage your 4th &amp; Mayor experience. If you are 
-looking to change your Foursquare user settings you can do that at 
+<p>You can use this site to manage your 4th &amp; Mayor experience. If you are
+looking to change your Foursquare user settings you can do that at
 <a href="https://foursquare.com/settings">https://foursquare.com/settings</a>.</p>
 
 <h1>My Device<%
@@ -23,7 +23,7 @@ if (locals.devices && locals.devices.length > 1) {
 }
 %></h1>
 
-<% if (locals.devices && locals.devices.length > 0) { 
+<% if (locals.devices && locals.devices.length > 0) {
 
 
 
@@ -44,8 +44,8 @@ if (locals.devices && locals.devices.length > 1) {
 			uc = 'https://s3.amazonaws.com/push.4thandmayor/CrownBackground' + uc + '.png';
 			%>
 
-<div style="width:173px;height:173px;background-color:#2094c6;display:block;position:relative;float:right"><img 
-width="173" height="173" src="<%-uc%>" /><span 
+<div style="width:173px;height:173px;background-color:#2094c6;display:block;position:relative;float:right"><img
+width="173" height="173" src="<%-uc%>" /><span
 style="position:absolute;bottom:10px;left:12px;color:white;font-family:Segoe WP, Segoe, Tahoma, Helvetica;font-weight:bold;font-size:14px"
 >4th &amp; Mayor</span></div>
 
@@ -53,7 +53,7 @@ style="position:absolute;bottom:10px;left:12px;color:white;font-family:Segoe WP,
 
 			<%
 
-			
+
 
 
 			%>
@@ -88,22 +88,22 @@ style="position:absolute;bottom:10px;left:12px;color:white;font-family:Segoe WP,
 <% } else { // end if locals.devices
 %>
 
-<p>You don't have any registered devices that are using the cloud services provided by 
+<p>You don't have any registered devices that are using the cloud services provided by
 4th &amp; Mayor.</p>
 
-<p>If you aren't using it today, please check out the app - it is free, quick and easy 
+<p>If you aren't using it today, please check out the app - it is free, quick and easy
 to install on your Windows Phone through Microsoft's Windows Phone Marketplace.</p>
 
-<%- partial('marketplaceLink.ejs') %>
+<% include marketplaceLink.ejs %>
 
-<p>If you already use 4th &amp; Mayor, it is possible that your app is not connected 
+<p>If you already use 4th &amp; Mayor, it is possible that your app is not connected
 to the cloud. Consider the following situations:</p>
 
 <ul>
 	<li>You have not opted in to Push Notifications inside the application.</li>
-	<li>It's been a few weeks since you last used 4th &amp; 
+	<li>It's been a few weeks since you last used 4th &amp;
 		Mayor while connected to the Internets.</li>
-	<li>There is currently an issue with cloud service connectivity, consider 
+	<li>There is currently an issue with cloud service connectivity, consider
 		trying to check this page at a later time.</li>
 </ul>
 
