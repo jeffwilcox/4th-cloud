@@ -31,6 +31,13 @@ router.get('/about', (req, res) => {
   });
 });
 
+router.get('/about/developer.html', (req, res) => {
+  res.render('about', {
+    title: 'About Jeff Wilcox',
+    isWide: true,
+  });
+});
+
 function privacy(req, res) {
   res.render('privacy', {
     title: 'Privacy',
