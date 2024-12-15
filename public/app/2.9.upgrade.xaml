@@ -1,8 +1,8 @@
 <StackPanel
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns="https://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="https://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="https://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="https://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:jw="clr-namespace:JeffWilcox.Controls;assembly=Shared"
     mc:Ignorable="d" 
     Margin="0,12,0,24">
@@ -110,7 +110,7 @@ Text="PREVIOUS UPDATES" />
 
                         <Image
                                 HorizontalAlignment="Center"
-                                jw:AwesomeImage.UriSource="http://www.4thandmayor.com/app/newCheckinExperience.jpg"
+                                jw:AwesomeImage.UriSource="https://4thandmayor.com/app/newCheckinExperience.jpg"
                                 Width="370"
                                 Margin="0,12,0,24"
                                 Height="118"
@@ -167,7 +167,7 @@ Text="PREVIOUS UPDATES" />
 
                         <Image
                                 HorizontalAlignment="Center"
-                                jw:AwesomeImage.UriSource="http://www.4thandmayor.com/app/topCategories.jpg"
+                                jw:AwesomeImage.UriSource="https://4thandmayor.com/app/topCategories.jpg"
                                 Width="370"
                                 Margin="0,12,0,24"
                                 Height="313"
@@ -183,7 +183,7 @@ Text="PREVIOUS UPDATES" />
 
                         <Image
                                 VerticalAlignment="Top"
-                                jw:AwesomeImage.UriSource="http://www.4thandmayor.com/app/seattle.jpg"
+                                jw:AwesomeImage.UriSource="https://4thandmayor.com/app/seattle.jpg"
                                 Width="186"
                                 Margin="0,12,0,24"
                                 Height="167"
