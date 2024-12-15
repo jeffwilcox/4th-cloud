@@ -51,7 +51,7 @@
 </head>
 <body id="homepage">
     <div id="header">
-        <% include header.ejs %>
+        <%- include('header.ejs') %>
     </div><%
 
     if (locals.isWide && locals.isWide === true) {
@@ -77,7 +77,7 @@
     %>
 
     <div id="footer">
-        <% include footer.ejs %>
+        <%- include('footer.ejs') %>
     </div>
 </body>
 </html>
