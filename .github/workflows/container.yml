@@ -54,12 +54,12 @@ jobs:
       - name: Azure ☁️
         uses: azure/login@v2
         with:
-          client-id: ${{ vars.AKS_CLIENT_ID }}
-          tenant-id: ${{ vars.AKS_TENANT_ID }}
-          subscription-id: ${{ vars.AKS_SUBSCRIPTION_ID }}
+          client-id: ${{ vars.CLIENT_ID }}
+          tenant-id: ${{ vars.TENANT_ID }}
+          subscription-id: ${{ vars.SUBSCRIPTION_ID }}
       - name: Prepare staging slots 🎰
         run: |
-          az account set --subscription ${{ vars.AKS_SUBSCRIPTION_ID }}
+          az account set --subscription ${{ vars.SUBSCRIPTION_ID }}
           echo West US 3 deployment 🌵
           az webapp config container set \
             --container-image-name opensource.azurecr.io/${{ github.event.repository.name }}:${{ github.run_number }} \
