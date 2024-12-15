@@ -1,0 +1,69 @@
+name: Ship it 🐿️
+
+permissions:
+  id-token: write
+  contents: read
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build 🏗
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install packages 📦
+        shell: bash
+        run: |
+          npm ci
+          npm run build
+
+      - name: Azure ☁️
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.CLIENT_ID }}
+          tenant-id: ${{ vars.TENANT_ID }}
+          subscription-id: ${{ vars.SUBSCRIPTION_ID }}
+
+      - name: Connect to Azure Container Registry 🔖
+        run: |
+          az acr login -n opensource
+
+      - name: Container build ⛴️
+        run: |
+          docker build \
+            -t ${{ github.event.repository.name }}:${{ github.run_number }} \
+            -t opensource.azurecr.io/${{ github.event.repository.name }}:${{ github.run_number }} \
+            -t opensource.azurecr.io/${{ github.event.repository.name }}:latest \
+            .
+
+      - name: Push to ACR 📌
+        run: |
+          docker image push opensource.azurecr.io/${{ github.event.repository.name }}:${{ github.run_number }}
+          docker image push opensource.azurecr.io/${{ github.event.repository.name }}:latest
+
+  stage:
+    name: Set container ⚡️
+    runs-on: ubuntu-24.04
+    needs: [build]
+    steps:
+      - name: Azure ☁️
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AKS_CLIENT_ID }}
+          tenant-id: ${{ vars.AKS_TENANT_ID }}
+          subscription-id: ${{ vars.AKS_SUBSCRIPTION_ID }}
+      - name: Prepare staging slots 🎰
+        run: |
+          az account set --subscription ${{ vars.AKS_SUBSCRIPTION_ID }}
+          echo West US 3 deployment 🌵
+          az webapp config container set \
+            --container-image-name opensource.azurecr.io/${{ github.event.repository.name }}:${{ github.run_number }} \
+            --container-registry-url https://opensource.azurecr.io \
+            --name 4thandmayor \
+            --resource-group webapps
