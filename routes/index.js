@@ -6,7 +6,7 @@ function homepage(req, res) {
     title: 'A foursquare experience for Windows Phone',
     isWide: true,
     extraFeeds: '<meta property="fb:page_id" content="145528958837083" />',
-    extraCss: '<link rel="stylesheet" href="https://az523807.vo.msecnd.net/site/media/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" /><script type="text/javascript" src="https://az523807.vo.msecnd.net/site/media/fancybox/jquery.fancybox-1.3.4.pack.js"></script>'
+    extraCss: '<link rel="stylesheet" href="https://4th.blob.core.windows.net/site/media/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" /><script type="text/javascript" src="https://4th.blob.core.windows.net/site/media/fancybox/jquery.fancybox-1.3.4.pack.js"></script>'
   });
 }
 
