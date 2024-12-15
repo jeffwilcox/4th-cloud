@@ -21,7 +21,6 @@ jobs:
         shell: bash
         run: |
           npm ci
-          npm run build
 
       - name: Azure ☁️
         uses: azure/login@v2
